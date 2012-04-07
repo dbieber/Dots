@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.random;
+import java.util.Random;
 
 public class Solution {
 
@@ -92,7 +92,7 @@ public class Solution {
                 int x = rand.nextInt(5);
                 int y = rand.nextInt(5);
                 GraphNode n = b.nodes[y][x];
-                if (n.children.size == 0)
+                if (n.children.size() == 0)
                     continue;
                 GraphNode adj = n.children.get(0);
                 result[0] = n.x + adj.x + 1;
