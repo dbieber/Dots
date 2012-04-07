@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.Scanner;
 
 public class HumanTester {
 
@@ -9,11 +10,11 @@ public class HumanTester {
     final static int MATRIX_SIZE = 2*GRID_SIZE + 1;
 
     static int player;
-
+    static int turn = 1; //Computer = 1, player = 2
     public static void main(String args[]) {
-        int[][] input = new int[MATRIX_SIZE][MATRIX_SIZE];
+        int[][] board = new int[MATRIX_SIZE][MATRIX_SIZE];
         int turn = 0; //Computer is 0, Player is 1
-        
+        /*
         try {
             BufferedReader in = 
                 new BufferedReader(new InputStreamReader(System.in));
@@ -25,16 +26,56 @@ public class HumanTester {
                 StringTokenizer st = new StringTokenizer(line);
                 for (int j = 0; j < MATRIX_SIZE; j++) {
                     int ij = Integer.parseInt(st.nextToken());
-                    input[j][i] = ij;
+                    board[j][i] = ij;
                 }
             }
         } catch (Exception e) {
             System.err.println("Error:" + e.getMessage());
         }
-        printBoard(input);
-               
+        */
+
+        while(true)
+        {
+            printBoard(board);
+            System.out.print("\n\n");
+            if (turn == 1)
+            {
+                Solution AI = new Solution(board);
+                addEdge(board, 1, AI.result[0], AI.result[1]);
+                System.out.println("move: (" + AI.result[0] + "," + AI.result[1] + ")");
+                turn = 2;
+                System.out.println("\n\n\n");
+            } else {
+                    System.out.print("Move in row column format: "); 
+                    Scanner s = new Scanner(System.in);
+                    int Row = s.nextInt();
+                    int Col = s.nextInt();
+                    addEdge(board, 2, Col, Row);
+                    turn = 1;
+            }
+        }
     }
 
+
+
+
+    public static void addEdge(int[][] board, int turn, int x, int y)
+    {
+        board[x][y] = turn;
+        // - line
+        if (y % 2 == 0)
+        {
+
+
+
+        } else { // | line
+
+
+
+        }
+
+
+    }
 
     public static void printBoard(int[][] input)
     {
