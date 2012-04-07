@@ -10,6 +10,11 @@ public class Solution {
 	
 	static int player;
 	
+	public static void takeSquare(GraphNode n) {
+    	GraphNode adj = n.children.get(0);
+		System.out.println("(" + (n.x+adj.x+1) + "," + (n.y+adj.y+1) + ")");
+	}
+	
 	public static void main(String args[]) {
 		int[][] input = new int[MATRIX_SIZE][MATRIX_SIZE];
 	    try {
@@ -72,9 +77,8 @@ public class Solution {
 			    }
 	    	}
 	    	
-	    	GraphNode adj = n.children.get(0);
 	    	if (! ((closed && chainSize == 4) || (!closed && chainSize == 2))) {
-	    		System.out.println("(" + (n.x+adj.x+1) + "," + (n.y+adj.y+1) + ")");
+	    		takeSquare(n);
 	    		return;
 	    	} else {
 	    		if (chainSize == 2) {
@@ -88,6 +92,14 @@ public class Solution {
 	    	//and we've calculated the twos and fours
 	    	//if there's more than one, let's take some!
 	    	
+	    	if (fours.size() + twos.size() > 1) {
+	    		if (fours.size() >= 1) {
+	    			takeSquare(fours.get(0));
+	    			return;
+	    		}
+    			takeSquare(twos.get(0));
+    			return;
+	    	}
 	    }
 	}
 }
