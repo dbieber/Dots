@@ -10,6 +10,7 @@ public class Solution {
 	static int player;
 	
 	public static void main(String args[]) {
+		int[][] input = new int[MATRIX_SIZE][MATRIX_SIZE];
 	    try {
 	        BufferedReader in = 
 	          new BufferedReader(new InputStreamReader(System.in));
@@ -21,14 +22,12 @@ public class Solution {
 				StringTokenizer st = new StringTokenizer(line);
 				for (int j = 0; j < MATRIX_SIZE; j++) {
 					int ij = Integer.parseInt(st.nextToken());
-					System.out.print(ij);
+					input[i][j] = ij;
 				}
-				System.out.println();
 			}
-	        
-	        
 	    } catch (Exception e) {
 	        System.err.println("Error:" + e.getMessage());
 	    }
+	    Board b = new Board(input);
 	}
 }

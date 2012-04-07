@@ -2,6 +2,46 @@ import java.util.ArrayList;
 
 public class Board 
 {
+	static final int SIZE = Solution.GRID_SIZE;
+	
+	GraphNode[][] nodes;
+	
+	public Board(int[][] input) {
+		GraphNode outside = new GraphNode();
+		nodes = new GraphNode[SIZE][SIZE];
+		for (int i = 0; i < SIZE; i++) { //x
+			for (int j = 0; j < SIZE; j++) { //y
+				nodes[i][j] = new GraphNode();
+				nodes[i][j].x = i;
+				nodes[i][j].y = j;
+
+				if (input[2*i][2*j+1] == 0)
+					if (i>0)
+						nodes[i][j].addChild(nodes[i-1][j]);
+					else
+						nodes[i][j].addChild(outside);
+
+				if (input[2*i+2][2*j+1] == 0)
+					if (i<SIZE - 1)
+						nodes[i][j].addChild(nodes[i+1][j]);
+					else
+						nodes[i][j].addChild(outside);
+
+				if (input[2*i+1][2*j] == 0)
+					if (j>0)
+						nodes[i][j].addChild(nodes[i][j-1]);
+					else
+						nodes[i][j].addChild(outside);
+
+				if (input[2*i+1][2*j+2] == 0)
+					if (j<SIZE - 1)
+						nodes[i][j].addChild(nodes[i][j+1]);
+					else
+						nodes[i][j].addChild(outside);
+			}
+		}
+	}
+	
     private Box[] board;
     
     private class Box 
@@ -44,7 +84,7 @@ public class Board
         }
     }
     
-    public Board(int[][] b)
+/*    public Board(int[][] b)
     {
         board = new Box[26];
         for (int i = 0; i < 26; i++) {
@@ -62,6 +102,7 @@ public class Board
             }
         }
     }
+    */
     
     public ArrayList<Box> threeSided() {
         ArrayList<Box> list = new ArrayList<Box>();
