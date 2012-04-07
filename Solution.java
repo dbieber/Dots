@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Solution {
@@ -29,6 +30,9 @@ public class Solution {
 	        System.err.println("Error:" + e.getMessage());
 	    }
 	    Board b = new Board(input);
+
+	    ArrayList<GraphNode> twos = new ArrayList<GraphNode>();
+	    ArrayList<GraphNode> fours = new ArrayList<GraphNode>();
 	    
 	    for (GraphNode n : b.canBeTakens) {
 	    	boolean[][] visited = new boolean[GRID_SIZE][GRID_SIZE];
@@ -72,7 +76,18 @@ public class Solution {
 	    	if (! ((closed && chainSize == 4) || (!closed && chainSize == 2))) {
 	    		System.out.println("(" + (n.x+adj.x+1) + "," + (n.y+adj.y+1) + ")");
 	    		return;
+	    	} else {
+	    		if (chainSize == 2) {
+	    			twos.add(n);
+	    		} else if (chainSize == 4) {
+	    			fours.add(n);
+	    		}
 	    	}
+	    	
+	    	//we've how returned the right edge if there was an obvious choice.
+	    	//and we've calculated the twos and fours
+	    	//if there's more than one, let's take some!
+	    	
 	    }
 	}
 }
