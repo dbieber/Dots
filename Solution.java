@@ -22,7 +22,7 @@ public class Solution {
 				StringTokenizer st = new StringTokenizer(line);
 				for (int j = 0; j < MATRIX_SIZE; j++) {
 					int ij = Integer.parseInt(st.nextToken());
-					input[i][j] = ij;
+					input[j][i] = ij;
 				}
 			}
 	    } catch (Exception e) {
@@ -36,10 +36,14 @@ public class Solution {
 	    	boolean chainDone = false;
 	    	boolean closed = false;
 	    	int chainSize = 1;
-	    	GraphNode current = n;
+	    	visited[n.x][n.y] = true;
+	    	GraphNode current = n.children.get(0);
 	    	
 	    	while (!chainDone) {
 		    	visited[current.x][current.y] = true;
+
+			    if (!current.outside)
+			    	chainSize++;
 		    	
 		    	if (current.children.size() == 0) {
 		    		chainDone = true;
@@ -62,13 +66,12 @@ public class Solution {
 			    		next = current.children.get(1);
 			    	current = next;
 			    }
-			    
-			    if (!current.outside)
-			    	chainSize++;
 	    	}
 	    	
+	    	GraphNode adj = n.children.get(0);
 	    	if (! ((closed && chainSize == 4) || (!closed && chainSize == 2))) {
-	    		//take and be done
+	    		System.out.println("(" + (n.x+adj.x+1) + "," + (n.y+adj.y+1) + ")");
+	    		return;
 	    	}
 	    }
 	}
