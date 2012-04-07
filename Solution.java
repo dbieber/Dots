@@ -10,30 +10,10 @@ public class Solution {
 	
 	static int player;
 	
-	public static void takeSquare(GraphNode n) {
-    	GraphNode adj = n.children.get(0);
-		System.out.println("(" + (n.x+adj.x+1) + "," + (n.y+adj.y+1) + ")");
-	}
+	int[] result;
 	
-	public static void main(String args[]) {
-		int[][] input = new int[MATRIX_SIZE][MATRIX_SIZE];
-	    try {
-	        BufferedReader in = 
-	          new BufferedReader(new InputStreamReader(System.in));
-	        String s = in.readLine();
-	        player = Integer.parseInt(s);
-			
-			for (int i=0; i < MATRIX_SIZE; i++) {
-				String line = in.readLine();
-				StringTokenizer st = new StringTokenizer(line);
-				for (int j = 0; j < MATRIX_SIZE; j++) {
-					int ij = Integer.parseInt(st.nextToken());
-					input[j][i] = ij;
-				}
-			}
-	    } catch (Exception e) {
-	        System.err.println("Error:" + e.getMessage());
-	    }
+	public Solution(int[][] input) {
+		result = new int[2];
 	    Board b = new Board(input);
 
 	    ArrayList<GraphNode> twos = new ArrayList<GraphNode>();
@@ -101,5 +81,34 @@ public class Solution {
     			return;
 	    	}
 	    }
+	}
+	
+	public void takeSquare(GraphNode n) {
+    	GraphNode adj = n.children.get(0);
+    	result[0] = n.x+adj.x+1;
+    	result[1] = n.y+adj.y+1;
+	}
+	
+	public static void main(String args[]) {
+		int[][] input = new int[MATRIX_SIZE][MATRIX_SIZE];
+	    try {
+	        BufferedReader in = 
+	          new BufferedReader(new InputStreamReader(System.in));
+	        String s = in.readLine();
+	        player = Integer.parseInt(s);
+			
+			for (int i=0; i < MATRIX_SIZE; i++) {
+				String line = in.readLine();
+				StringTokenizer st = new StringTokenizer(line);
+				for (int j = 0; j < MATRIX_SIZE; j++) {
+					int ij = Integer.parseInt(st.nextToken());
+					input[j][i] = ij;
+				}
+			}
+	    } catch (Exception e) {
+	        System.err.println("Error:" + e.getMessage());
+	    }
+	    Solution s = new Solution(input);
+		System.out.println("(" + s.result[0] + "," + s.result[1] + ")");
 	}
 }
