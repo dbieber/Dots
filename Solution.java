@@ -29,5 +29,17 @@ public class Solution {
 	        System.err.println("Error:" + e.getMessage());
 	    }
 	    Board b = new Board(input);
+	    
+	    for (GraphNode n : b.canBeTakens) {
+	    	boolean[][] visited = new boolean[GRID_SIZE][GRID_SIZE];
+	    	visited[n.x][n.y] = true;
+	    	
+	    	GraphNode next;
+	    	for (GraphNode c : n.children) {
+	    		
+	    	}
+	    	
+	    	//2 open, 4 closed
+	    }
 	}
 }
