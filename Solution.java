@@ -32,14 +32,44 @@ public class Solution {
 	    
 	    for (GraphNode n : b.canBeTakens) {
 	    	boolean[][] visited = new boolean[GRID_SIZE][GRID_SIZE];
-	    	visited[n.x][n.y] = true;
 	    	
-	    	GraphNode next;
-	    	for (GraphNode c : n.children) {
-	    		
+	    	boolean chainDone = false;
+	    	boolean closed = false;
+	    	int chainSize = 1;
+	    	GraphNode current = n;
+	    	
+	    	while (!chainDone) {
+		    	visited[current.x][current.y] = true;
+		    	
+		    	if (current.children.size() == 0) {
+		    		chainDone = true;
+		    		closed = false;
+		    		break;
+		    	}
+			    if (current.children.size() == 1) {
+		    		chainDone = true;
+		    		closed = true;
+		    		break;
+		    	}
+			    if (current.children.size() > 2) {
+			    	chainDone = true;
+			    	closed = false;
+			    	break;
+			    }
+			    if (current.children.size() == 2) {
+			    	GraphNode next = current.children.get(0);
+			    	if (visited[next.x][next.y])
+			    		next = current.children.get(1);
+			    	current = next;
+			    }
+			    
+			    if (!current.outside)
+			    	chainSize++;
 	    	}
 	    	
-	    	//2 open, 4 closed
+	    	if (! ((closed && chainSize == 4) || (!closed && chainSize == 2))) {
+	    		//take and be done
+	    	}
 	    }
 	}
 }
