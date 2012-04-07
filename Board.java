@@ -6,8 +6,12 @@ public class Board
 	
 	GraphNode[][] nodes;
 	
+	
+	
 	public Board(int[][] input) {
 		GraphNode outside = new GraphNode();
+		outside.outside = true;
+		
 		nodes = new GraphNode[SIZE][SIZE];
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) { //y
