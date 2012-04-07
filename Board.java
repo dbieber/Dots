@@ -6,11 +6,13 @@ public class Board
 	
 	GraphNode[][] nodes;
 	
-	
+	ArrayList<GraphNode> canBeTakens;
 	
 	public Board(int[][] input) {
 		GraphNode outside = new GraphNode();
 		outside.outside = true;
+
+		canBeTakens = new ArrayList<GraphNode>();
 		
 		nodes = new GraphNode[SIZE][SIZE];
 		for (int i = 0; i < SIZE; i++) {
@@ -22,6 +24,7 @@ public class Board
 		}
 		for (int i = 0; i < SIZE; i++) { //x
 			for (int j = 0; j < SIZE; j++) { //y
+				
 				if (input[2*i][2*j+1] == 0)
 					if (i>0)
 						nodes[i][j].addChild(nodes[i-1][j]);
@@ -45,6 +48,10 @@ public class Board
 						nodes[i][j].addChild(nodes[i][j+1]);
 					else
 						nodes[i][j].addChild(outside);
+				
+				if (nodes[i][j].children.size() == 1) {
+					canBeTakens.add(nodes[i][j]);
+				}
 			}
 		}
 	}
