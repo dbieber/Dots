@@ -9,12 +9,15 @@ public class Board
 	public Board(int[][] input) {
 		GraphNode outside = new GraphNode();
 		nodes = new GraphNode[SIZE][SIZE];
-		for (int i = 0; i < SIZE; i++) { //x
+		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) { //y
 				nodes[i][j] = new GraphNode();
 				nodes[i][j].x = i;
 				nodes[i][j].y = j;
-
+			}
+		}
+		for (int i = 0; i < SIZE; i++) { //x
+			for (int j = 0; j < SIZE; j++) { //y
 				if (input[2*i][2*j+1] == 0)
 					if (i>0)
 						nodes[i][j].addChild(nodes[i-1][j]);
