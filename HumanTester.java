@@ -42,6 +42,11 @@ public class HumanTester {
             if (turn == 1)
             {
                 Solution AI = new Solution(board);
+                if (board[AI.result[1]][AI.result[0]] != 0)
+                    {
+                    System.out.print("(" + AI.result[1] + ", " + AI.result[0] + ") is not a valid move");
+                    break;
+                    }
                 addEdge(board, 1, AI.result[0], AI.result[1]);
                 if (AUTOMATED == 0)
                     turn = 2;
