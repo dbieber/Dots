@@ -92,9 +92,12 @@ public class Solution {
                 GraphNode n = b.nodes[y][x];
                 if (n.children.size() == 0)
                     continue;
-                GraphNode adj = n.children.get(0);
+                GraphNode adj = n.children.get(rand.nextInt(n.children.size()));
                 result[0] = n.x + adj.x + 1;
                 result[1] = n.y + adj.y + 1;
+                System.out.print("Random Move\n");
+                System.out.print("x: " + x + "\n");
+                System.out.print("y: " + y + "\n");
                 return;
             }   
         }
