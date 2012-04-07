@@ -53,7 +53,7 @@ public class Solution {
 			    }
 			    if (current.children.size() == 2) {
 			    	GraphNode next = current.children.get(0);
-			    	if (next.outside || visited[next.x][next.y])
+			    	if (!next.outside && visited[next.x][next.y])
 			    		next = current.children.get(1);
 			    	current = next;
 			    }
