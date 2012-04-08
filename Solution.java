@@ -67,20 +67,45 @@ public class Solution {
 	    			fours.add(n);
 	    		}
 	    	}
-	    	
-	    	//we've how returned the right edge if there was an obvious choice.
-	    	//and we've calculated the twos and fours
-	    	//if there's more than one, let's take some!
-	    	
-	    	if (fours.size() + twos.size() > 1) {
-	    		if (fours.size() >= 1) {
-	    			takeSquare(fours.get(0));
-	    			return;
-	    		}
-    			takeSquare(twos.get(0));
-    			return;
-	    	}
 	    }
+
+    	//we've how returned the right edge if there was an obvious choice.
+    	//and we've calculated the twos and fours
+    	//if there's more than one, let's take some!
+    	
+    	if (fours.size() + twos.size() > 1) {
+    		if (fours.size() >= 1) {
+    			takeSquare(fours.get(0));
+    			return;
+    		}
+			takeSquare(twos.get(0));
+			return;
+    	}
+	}
+	
+	public ArrayList<ArrayList<GraphNode>> findComponents(Board b) {
+		int[][] compMap = new int[GRID_SIZE][GRID_SIZE];
+		ArrayList<ArrayList<GraphNode>> components = new ArrayList<ArrayList<GraphNode>>();
+		for (int x = 0; x < GRID_SIZE; ++x) {
+			for (int y = 0; y < GRID_SIZE; ++y) {
+				if (compMap[x][y] == 0) {
+					ArrayList<GraphNode> component = new ArrayList<GraphNode>();
+					components.add(component);
+					dfs(b.nodes[x][y], components.size(), compMap, component);
+				}
+			}
+		}
+		return components;
+	}
+	
+	public void dfs(GraphNode node, int compNo, int[][] compMap, ArrayList<GraphNode> component) {
+		if (node.outside) return;
+		if (compMap[node.x][node.y] != 0) return;
+		compMap[node.x][node.y] = compNo;
+		component.add(node);
+		for (GraphNode child : node.children) {
+			dfs(child, compNo, compMap, component);
+		}
 	}
 	
 	public void takeSquare(GraphNode n) {
