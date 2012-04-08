@@ -85,7 +85,7 @@ public class Solution {
             return;
         }
 
-        /*
+        
         ArrayList<Edge> okayEdges = new ArrayList<Edge>();
         ArrayList<Edge> badEdges = new ArrayList<Edge>();
         for (GraphNode row[] : b.nodes)
@@ -124,7 +124,7 @@ public class Solution {
                 result[1] = n.x + adj.x + 1;
                 return;
             }   
-        } */
+        }
     }
 
     public ArrayList<ArrayList<GraphNode>> findComponents(Board b) {
