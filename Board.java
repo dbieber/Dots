@@ -9,9 +9,6 @@ public class Board
 	ArrayList<GraphNode> canBeTakens;
 	
 	public Board(int[][] input) {
-		GraphNode outside = new GraphNode();
-		outside.outside = true;
-
 		canBeTakens = new ArrayList<GraphNode>();
 		
 		nodes = new GraphNode[SIZE][SIZE];
