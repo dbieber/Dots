@@ -96,7 +96,7 @@ public class Solution {
                 {
                     for (GraphNode neighbor : n.children)
                     {
-                        if (n.children.size() > 2)
+                        if (neighbor.children.size() > 2)
                             okayEdges.add(new Edge(n, neighbor));
                         else
                             badEdges.add(new Edge(n, neighbor));
@@ -110,9 +110,187 @@ public class Solution {
             }
         }
 
+        if (okayEdges.size() > 0) {
+            if (fours.size() > 0) {
+                takeSquare(fours.get(0));
+                return;
+            } else if (twos.size() > 0) {
+                takeSquare(twos.get(0));
+                return;
+            }
+        }
+
+        Random rand = new Random();
+        
+        if (okayEdges.size() > 0) {
+            int randomIndex = rand.nextInt(okayEdges.size());
+            result = okayEdges.get(randomIndex).getResult();
+            System.out.println("OKAY EDGE! :D");
+            return;
+        }
+        
+        Edge bestBad = null;
+        int bestLen = -1;
+        int bestDiff = 0;
+        System.out.println(badEdges.size());
+        for (Edge e : badEdges) {
+            visited = new boolean[GRID_SIZE][GRID_SIZE];
+            
+            boolean foundLength = false;
+            boolean cycle = false;
+            int len1 = 0, len2 = 0;
+            GraphNode n = e.node1;
+            boolean twoOrFour = false; //open 2 or closed 4
+
+            if (n.children.size() == 1) {
+                twoOrFour = true;
+                continue;
+            }
+            if (n.children.size() == 2) {
+                visited[n.x][n.y] = true;
+                len1++;
+                GraphNode next = n.children.get(0);
+                if (next == e.node2)
+                    next = n.children.get(1);
+                
+                while (!foundLength) {
+                    n = next;
+                    if (n.children.size() == 1) {
+                        twoOrFour = true;
+                        break;
+                    }
+                    if (n.children.size() == 3 && n == e.node2) {
+                        visited[n.x][n.y] = true;
+                        next = n.children.get(0);
+                        if (!next.outside && visited[next.x][next.y])
+                            next = n.children.get(1);
+                        if (!next.outside && visited[next.x][next.y])
+                            next = n.children.get(2);
+                        len1++;
+                    }
+                    else if (n.children.size() == 2) {
+                        visited[n.x][n.y] = true;
+                        next = n.children.get(0);
+                        if (!next.outside && visited[next.x][next.y])
+                            next = n.children.get(1);
+                        if (!next.outside && visited[next.x][next.y]) {
+                            foundLength = true;
+                            cycle = true;
+                            break;
+                        }
+                        len1++;
+                    }
+                    else {
+                        cycle = false;
+                        foundLength = true;
+                        break;
+                    }
+                }
+                if (twoOrFour) continue;
+            }
+
+            //* copy pasted *//
+            
+            foundLength = false;
+            n = e.node2;
+            if (n.children.size() == 1) {
+                twoOrFour = true;
+                continue;
+            }
+            if (n.children.size() == 2 && !visited[n.x][n.y]) {
+                visited[n.x][n.y] = true;
+                len2++;
+                GraphNode next = n.children.get(0);
+                if (next == e.node1)
+                    next = n.children.get(1);
+                
+                while (!foundLength) {
+                    n = next;
+                    if (n.children.size() == 1) {
+                        twoOrFour = true;
+                        break;
+                    }
+                    if (n.children.size() == 3 && n == e.node1) {
+                        visited[n.x][n.y] = true;
+                        next = n.children.get(0);
+                        if (!next.outside && visited[next.x][next.y])
+                            next = n.children.get(1);
+                        if (!next.outside && visited[next.x][next.y])
+                            next = n.children.get(2);
+                        len2++;
+                    }
+                    else if (n.children.size() == 2) {
+                        visited[n.x][n.y] = true;
+                        next = n.children.get(0);
+                        if (!next.outside && visited[next.x][next.y])
+                            next = n.children.get(1);
+                        if (!next.outside && visited[next.x][next.y]) {
+                            foundLength = true;
+                            cycle = true;
+                            break;
+                        }
+                        len2++;
+                    }
+                    else {
+                        cycle = false;
+                        foundLength = true;
+                        break;
+                    }
+                }
+                if (twoOrFour) continue;
+            }
+            
+            //* end copy *//
+                
+            int len = len1 + len2;
+            int diff = Math.abs(len1 - len2);
+            if (bestBad == null || (len == bestLen && diff < bestDiff) || len < bestLen) {
+                bestBad = e;
+                bestLen = len;
+                bestDiff = diff;
+                System.out.println("New best: " + bestLen + " edge: " + bestBad +"    lens: "+len1+" "+len2);
+            }
+        }
+
+        System.out.println("TWOS AND FOURS: "+twos.size()+" "+fours.size()+" bestLen: "+bestLen);
+        if (twos.size() > 0 && bestLen > 2) {
+            GraphNode inner = twos.get(0);
+            GraphNode outer = inner.children.get(0);
+            GraphNode third = outer.children.get(0);
+            if (third == inner)
+                third = outer.children.get(1);
+            Edge e = new Edge(outer, third);
+            result = e.getResult();
+            return;
+        }
+        if (fours.size() > 0 && bestLen > 4) {
+            GraphNode inner = twos.get(0);
+            GraphNode outer = inner.children.get(0);
+            GraphNode third = outer.children.get(0);
+            if (third == inner)
+                third = outer.children.get(1);
+            Edge e = new Edge(outer, third);
+            result = e.getResult();
+            return;
+        }
+        if (twos.size() > 0 && bestLen == -1) {
+            takeSquare(twos.get(0));
+            return;
+        }
+        if (fours.size() > 0 && bestLen == -1) {
+            takeSquare(fours.get(0));
+            return;
+        }
+        
+        if (bestBad != null)
+        {
+            result = bestBad.getResult();
+            return;
+        }
+/*        
+        // last resort pick random edge.
         if (result[0] == 0 && result[1] == 0)
         {
-            Random rand = new Random();
             while (true) {
                 int x = rand.nextInt(5);
                 int y = rand.nextInt(5);
@@ -123,8 +301,9 @@ public class Solution {
                 result[0] = n.y + adj.y + 1;
                 result[1] = n.x + adj.x + 1;
                 return;
-            }   
+            }
         }
+        */
     }
 
     public ArrayList<ArrayList<GraphNode>> findComponents(Board b) {

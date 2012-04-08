@@ -10,7 +10,7 @@ public class HumanTester {
     final static int MATRIX_SIZE = 2*GRID_SIZE + 1;
 
     static int player;
-    static int AUTOMATED = 1;
+    static int AUTOMATED = 0;
     static int turn = 1; //Computer = 1, player = 2
     public static void main(String args[]) {
         int[][] board = new int[MATRIX_SIZE][MATRIX_SIZE];
