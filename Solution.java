@@ -20,6 +20,8 @@ public class Solution {
 	    ArrayList<GraphNode> twos = new ArrayList<GraphNode>();
 	    ArrayList<GraphNode> fours = new ArrayList<GraphNode>();
 	    
+	    System.out.println("SIZE:" + b.canBeTakens.size());
+	    
 	    for (GraphNode n : b.canBeTakens) {
 	    	boolean[][] visited = new boolean[GRID_SIZE][GRID_SIZE];
 	    	
@@ -32,7 +34,6 @@ public class Solution {
 	    	while (!chainDone) {
 			    if (!current.outside)
 			    {
-			    	chainSize++;
 			    	visited[current.x][current.y] = true;
 			    }
 		    	
@@ -44,6 +45,7 @@ public class Solution {
 			    if (current.children.size() == 1) {
 		    		chainDone = true;
 		    		closed = true;
+			    	chainSize++;
 		    		break;
 		    	}
 			    if (current.children.size() > 2) {
@@ -52,6 +54,7 @@ public class Solution {
 			    	break;
 			    }
 			    if (current.children.size() == 2) {
+			    	chainSize++;
 			    	GraphNode next = current.children.get(0);
 			    	if (!next.outside && visited[next.x][next.y])
 			    		next = current.children.get(1);
