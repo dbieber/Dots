@@ -30,10 +30,11 @@ public class Solution {
 	    	GraphNode current = n.children.get(0);
 	    	
 	    	while (!chainDone) {
-		    	visited[current.x][current.y] = true;
-
 			    if (!current.outside)
+			    {
 			    	chainSize++;
+			    	visited[current.x][current.y] = true;
+			    }
 		    	
 		    	if (current.children.size() == 0) {
 		    		chainDone = true;
