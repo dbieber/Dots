@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Random;
 
+
 public class Solution {
 
     final static int GRID_SIZE = 5;
@@ -20,7 +21,7 @@ public class Solution {
         ArrayList<GraphNode> twos = new ArrayList<GraphNode>();
         ArrayList<GraphNode> fours = new ArrayList<GraphNode>();
 
-        System.out.println("SIZE:" + b.canBeTakens.size());
+        //System.out.println("SIZE:" + b.canBeTakens.size());
 
         boolean[][] visited = new boolean[GRID_SIZE][GRID_SIZE];
         for (GraphNode n : b.canBeTakens) {
@@ -125,19 +126,16 @@ public class Solution {
         if (okayEdges.size() > 0) {
             int randomIndex = rand.nextInt(okayEdges.size());
             result = okayEdges.get(randomIndex).getResult();
-            System.out.println("OKAY EDGE! :D");
             return;
         }
         
         Edge bestBad = null;
         int bestLen = -1;
         int bestDiff = 0;
-        System.out.println(badEdges.size());
         for (Edge e : badEdges) {
             visited = new boolean[GRID_SIZE][GRID_SIZE];
             
             boolean foundLength = false;
-            boolean cycle = false;
             int len1 = 0, len2 = 0;
             GraphNode n = e.node1;
             boolean twoOrFour = false; //open 2 or closed 4
@@ -175,13 +173,11 @@ public class Solution {
                             next = n.children.get(1);
                         if (!next.outside && visited[next.x][next.y]) {
                             foundLength = true;
-                            cycle = true;
                             break;
                         }
                         len1++;
                     }
                     else {
-                        cycle = false;
                         foundLength = true;
                         break;
                     }
@@ -226,13 +222,11 @@ public class Solution {
                             next = n.children.get(1);
                         if (!next.outside && visited[next.x][next.y]) {
                             foundLength = true;
-                            cycle = true;
                             break;
                         }
                         len2++;
                     }
                     else {
-                        cycle = false;
                         foundLength = true;
                         break;
                     }
@@ -248,11 +242,11 @@ public class Solution {
                 bestBad = e;
                 bestLen = len;
                 bestDiff = diff;
-                System.out.println("New best: " + bestLen + " edge: " + bestBad +"    lens: "+len1+" "+len2);
+                //System.out.println("New best: " + bestLen + " edge: " + bestBad +"    lens: "+len1+" "+len2);
             }
         }
 
-        System.out.println("TWOS AND FOURS: "+twos.size()+" "+fours.size()+" bestLen: "+bestLen);
+        //System.out.println("TWOS AND FOURS: "+twos.size()+" "+fours.size()+" bestLen: "+bestLen);
         if (twos.size() > 0 && bestLen > 2) {
             GraphNode inner = twos.get(0);
             GraphNode outer = inner.children.get(0);
@@ -357,6 +351,110 @@ public class Solution {
             System.err.println("Error:" + e.getMessage());
         }
         Solution s = new Solution(input);
-        System.out.println("(" + s.result[0] + "," + s.result[1] + ")");
+        System.out.println(s.result[0] + " " + s.result[1]);
     }
+    
+
+    private static class GraphNode {
+        int x, y;
+        boolean outside;
+        ArrayList<GraphNode> children;
+
+        public GraphNode() {
+            children = new ArrayList<GraphNode>();
+        }
+
+        public void addChild(GraphNode n) {
+            children.add(n);
+        }
+    }
+    
+    private static class Edge
+    {
+       
+       GraphNode node1;
+       GraphNode node2;
+       
+       Edge (GraphNode e1, GraphNode e2)
+       {
+          node1= e1;
+          node2 = e2;
+       }
+       
+       int[] getResult() {
+           int[] result = new int[2];
+           result[0] = node1.y+node2.y+1;
+           result[1] = node1.x+node2.x+1;
+           return result;
+       }
+       
+       public String toString() {
+           return getResult()[0]+" "+getResult()[1];
+       }
+    }
+    
+    
+    private static class Board 
+    {
+        static final int SIZE = Solution.GRID_SIZE;
+
+        GraphNode[][] nodes;
+
+        ArrayList<GraphNode> canBeTakens;
+
+        public Board(int[][] input) {
+            canBeTakens = new ArrayList<GraphNode>();
+
+            nodes = new GraphNode[SIZE][SIZE];
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) { //y
+                    nodes[i][j] = new GraphNode();
+                    nodes[i][j].x = i;
+                    nodes[i][j].y = j;
+                }
+            }
+            for (int i = 0; i < SIZE; i++) { //x
+                for (int j = 0; j < SIZE; j++) { //y
+
+                    if (input[2*i][2*j+1] == 0)
+                        if (i>0)
+                            nodes[i][j].addChild(nodes[i-1][j]);
+                        else
+                            nodes[i][j].addChild(makeOutsideNode(i-1,j));
+
+                    if (input[2*i+2][2*j+1] == 0)
+                        if (i<SIZE - 1)
+                            nodes[i][j].addChild(nodes[i+1][j]);
+                        else
+                            nodes[i][j].addChild(makeOutsideNode(i+1,j));
+
+                    if (input[2*i+1][2*j] == 0)
+                        if (j>0)
+                            nodes[i][j].addChild(nodes[i][j-1]);
+                        else
+                            nodes[i][j].addChild(makeOutsideNode(i,j-1));
+
+                    if (input[2*i+1][2*j+2] == 0)
+                        if (j<SIZE - 1)
+                            nodes[i][j].addChild(nodes[i][j+1]);
+                        else
+                            nodes[i][j].addChild(makeOutsideNode(i,j+1));
+
+                    if (nodes[i][j].children.size() == 1) {
+                        canBeTakens.add(nodes[i][j]);
+                    }
+                }
+            }
+        }
+
+        public GraphNode makeOutsideNode(int i, int j) {
+            GraphNode node = new GraphNode();
+            node.outside = true;
+            node.x = i;
+            node.y = j;
+            return node;
+        }
+    }
+
+    
 }
