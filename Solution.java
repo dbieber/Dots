@@ -93,8 +93,8 @@ public class Solution {
                 if (n.children.size() == 0)
                     continue;
                 GraphNode adj = n.children.get(0);
-                result[0] = n.x + adj.x + 1;
-                result[1] = n.y + adj.y + 1;
+                result[0] = n.y + adj.y + 1;
+                result[1] = n.x + adj.x + 1;
                 return;
             }   
         }
@@ -127,8 +127,8 @@ public class Solution {
 
     public void takeSquare(GraphNode n) {
     	GraphNode adj = n.children.get(0);
-    	result[0] = n.x+adj.x+1;
-    	result[1] = n.y+adj.y+1;
+    	result[0] = n.y+adj.y+1;
+    	result[1] = n.x+adj.x+1;
 	}
 	
 	public static void main(String args[]) {
