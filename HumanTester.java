@@ -14,7 +14,6 @@ public class HumanTester {
     static int turn = 1; //Computer = 1, player = 2
     public static void main(String args[]) {
         int[][] board = new int[MATRIX_SIZE][MATRIX_SIZE];
-        int turn = 0; //Computer is 0, Player is 1
         /*
         try {
             BufferedReader in = 
@@ -87,7 +86,7 @@ public class HumanTester {
 
     public static void printBoard(int[][] input)
     {
-        System.out.print(" ");
+        System.out.print("  ");
         for (int c = 0; c < MATRIX_SIZE; c++)
         {
             System.out.print("  " + c);
@@ -96,7 +95,7 @@ public class HumanTester {
 
         for (int r = 0; r < MATRIX_SIZE; r++)
         {
-            System.out.print(r + " ");
+            System.out.printf("%2d ", r);
             for (int c = 0; c < MATRIX_SIZE; c++)
             {
                 //If at a dot or takeable position
