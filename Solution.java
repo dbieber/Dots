@@ -86,6 +86,30 @@ public class Solution {
 			takeSquare(twos.get(0));
 			return;
     	}
+    	
+    	ArrayList<Edge> okayEdges = new ArrayList<Edge>();
+      ArrayList<Edge> badEdges = new ArrayList<Edge>();
+      for (GraphNode row[] : b.nodes)
+      {
+         for (GraphNode n : row)
+         {
+            if (n.children.size() > 2)
+            {
+               for (GraphNode neighbor : n.children)
+               {
+                  if (n.children.size() > 2)
+                     okayEdges.add(new Edge(n, neighbor));
+                  else
+                     badEdges.add(new Edge(n, neighbor));
+               }
+            }
+            else
+            {
+               for (GraphNode neighbor : n.children)
+                  badEdges.add(new Edge(n, neighbor));
+            }
+         }
+      }
 
         if (result[0] == 0 && result[1] == 0)
         {
