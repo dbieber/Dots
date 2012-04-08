@@ -32,7 +32,7 @@ public class HumanTester {
         } catch (Exception e) {
             System.err.println("Error:" + e.getMessage());
         }
-        */
+         */
 
         while(true)
         {
@@ -42,22 +42,22 @@ public class HumanTester {
             {
                 Solution AI = new Solution(board);
                 if (board[AI.result[1]][AI.result[0]] != 0)
-                    {
+                {
                     System.out.print("(" + AI.result[1] + ", " + AI.result[0] + ") is not a valid move");
                     break;
-                    }
+                }
                 addEdge(board, 1, AI.result[0], AI.result[1]);
                 if (AUTOMATED == 0)
                     turn = 2;
                 System.out.println("\n\n\n");
-                
+
             } else {
-                    System.out.print("Move in row column format: "); 
-                    Scanner s = new Scanner(System.in);
-                    int Row = s.nextInt();
-                    int Col = s.nextInt();
-                    addEdge(board, 2, Row, Col);
-                    turn = 1;
+                System.out.print("Move in row column format: "); 
+                Scanner s = new Scanner(System.in);
+                int Row = s.nextInt();
+                int Col = s.nextInt();
+                addEdge(board, 2, Row, Col);
+                turn = 1;
             }
         }
     }

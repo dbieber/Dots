@@ -2,67 +2,67 @@ import java.util.ArrayList;
 
 public class Board 
 {
-	static final int SIZE = Solution.GRID_SIZE;
-	
-	GraphNode[][] nodes;
-	
-	ArrayList<GraphNode> canBeTakens;
-	
-	public Board(int[][] input) {
-		canBeTakens = new ArrayList<GraphNode>();
-		
-		nodes = new GraphNode[SIZE][SIZE];
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) { //y
-				nodes[i][j] = new GraphNode();
-				nodes[i][j].x = i;
-				nodes[i][j].y = j;
-			}
-		}
-		for (int i = 0; i < SIZE; i++) { //x
-			for (int j = 0; j < SIZE; j++) { //y
-				
-				if (input[2*i][2*j+1] == 0)
-					if (i>0)
-						nodes[i][j].addChild(nodes[i-1][j]);
-					else
-						nodes[i][j].addChild(makeOutsideNode(i-1,j));
+    static final int SIZE = Solution.GRID_SIZE;
 
-				if (input[2*i+2][2*j+1] == 0)
-					if (i<SIZE - 1)
-						nodes[i][j].addChild(nodes[i+1][j]);
-					else
-						nodes[i][j].addChild(makeOutsideNode(i+1,j));
+    GraphNode[][] nodes;
 
-				if (input[2*i+1][2*j] == 0)
-					if (j>0)
-						nodes[i][j].addChild(nodes[i][j-1]);
-					else
-						nodes[i][j].addChild(makeOutsideNode(i,j-1));
+    ArrayList<GraphNode> canBeTakens;
 
-				if (input[2*i+1][2*j+2] == 0)
-					if (j<SIZE - 1)
-						nodes[i][j].addChild(nodes[i][j+1]);
-					else
-						nodes[i][j].addChild(makeOutsideNode(i,j+1));
-				
-				if (nodes[i][j].children.size() == 1) {
-					canBeTakens.add(nodes[i][j]);
-				}
-			}
-		}
-	}
-	
-	public GraphNode makeOutsideNode(int i, int j) {
-		GraphNode node = new GraphNode();
-		node.outside = true;
-		node.x = i;
-		node.y = j;
-		return node;
-	}
+    public Board(int[][] input) {
+        canBeTakens = new ArrayList<GraphNode>();
+
+        nodes = new GraphNode[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) { //y
+                nodes[i][j] = new GraphNode();
+                nodes[i][j].x = i;
+                nodes[i][j].y = j;
+            }
+        }
+        for (int i = 0; i < SIZE; i++) { //x
+            for (int j = 0; j < SIZE; j++) { //y
+
+                if (input[2*i][2*j+1] == 0)
+                    if (i>0)
+                        nodes[i][j].addChild(nodes[i-1][j]);
+                    else
+                        nodes[i][j].addChild(makeOutsideNode(i-1,j));
+
+                if (input[2*i+2][2*j+1] == 0)
+                    if (i<SIZE - 1)
+                        nodes[i][j].addChild(nodes[i+1][j]);
+                    else
+                        nodes[i][j].addChild(makeOutsideNode(i+1,j));
+
+                if (input[2*i+1][2*j] == 0)
+                    if (j>0)
+                        nodes[i][j].addChild(nodes[i][j-1]);
+                    else
+                        nodes[i][j].addChild(makeOutsideNode(i,j-1));
+
+                if (input[2*i+1][2*j+2] == 0)
+                    if (j<SIZE - 1)
+                        nodes[i][j].addChild(nodes[i][j+1]);
+                    else
+                        nodes[i][j].addChild(makeOutsideNode(i,j+1));
+
+                if (nodes[i][j].children.size() == 1) {
+                    canBeTakens.add(nodes[i][j]);
+                }
+            }
+        }
+    }
+
+    public GraphNode makeOutsideNode(int i, int j) {
+        GraphNode node = new GraphNode();
+        node.outside = true;
+        node.x = i;
+        node.y = j;
+        return node;
+    }
 }
-                    
-            
-        
-    
-    
+
+
+
+
+
