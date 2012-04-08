@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.random;
 
 public class Solution {
 
@@ -81,6 +82,22 @@ public class Solution {
 			takeSquare(twos.get(0));
 			return;
     	}
+
+        if (result[0] == 0 && result[1] == 0)
+        {
+            Random rand = new Random();
+            while (true) {
+                int x = rand.nextInt(5);
+                int y = rand.nextInt(5);
+                GraphNode n = b.nodes[y][x];
+                if (n.children.size == 0)
+                    continue;
+                GraphNode adj = n.children.get(0);
+                result[0] = n.x + adj.x + 1;
+                result[1] = n.y + adj.y + 1;
+                return;
+            }   
+        }
 	}
 	
 	public ArrayList<ArrayList<GraphNode>> findComponents(Board b) {
@@ -107,8 +124,8 @@ public class Solution {
 			dfs(child, compNo, compMap, component);
 		}
 	}
-	
-	public void takeSquare(GraphNode n) {
+
+    public void takeSquare(GraphNode n) {
     	GraphNode adj = n.children.get(0);
     	result[0] = n.x+adj.x+1;
     	result[1] = n.y+adj.y+1;

@@ -42,7 +42,6 @@ public class HumanTester {
             {
                 Solution AI = new Solution(board);
                 addEdge(board, 1, AI.result[0], AI.result[1]);
-                System.out.println("move: (" + AI.result[0] + "," + AI.result[1] + ")");
                 turn = 2;
                 System.out.println("\n\n\n");
             } else {
@@ -50,7 +49,7 @@ public class HumanTester {
                     Scanner s = new Scanner(System.in);
                     int Row = s.nextInt();
                     int Col = s.nextInt();
-                    addEdge(board, 2, Col, Row);
+                    addEdge(board, 2, Row, Col);
                     turn = 1;
             }
         }
@@ -61,7 +60,8 @@ public class HumanTester {
 
     public static void addEdge(int[][] board, int turn, int x, int y)
     {
-        board[x][y] = turn;
+        System.out.println("move: (" + x + "," + y + ")");
+        board[y][x] = turn;
         // - line
         if (y % 2 == 0)
         {
